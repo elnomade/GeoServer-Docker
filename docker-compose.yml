@@ -19,7 +19,7 @@ services:
   geoserver_8085:
     container_name: geoserver_8085
     restart: always
-    image: thinkwhere/geoserver:2.12
+    image: elnomade/geoserver:2.12
     logging:
         driver: "json-file"
         options:
@@ -38,7 +38,7 @@ services:
   geoserver_8086:
     container_name: geoserver_8086
     restart: always
-    image: thinkwhere/geoserver:2.12
+    image: elnomade/geoserver:2.12
     logging:
         driver: "json-file"
         options:

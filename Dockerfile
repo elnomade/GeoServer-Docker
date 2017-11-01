@@ -1,6 +1,8 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
 FROM tomcat:8.5
-MAINTAINER thinkWhere<info@thinkwhere.com>
+MAINTAINER Leo Luduena<lleo@linux.com>
+#Credit: thinkWhere<info@thinkwhere.com>
+# thinkwhere/docker-geoserver
 #Credit: Tim Sutton<tim@linfiniti.com>
 # kartoza/docker-geoserver
 
