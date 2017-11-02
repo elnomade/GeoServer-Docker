@@ -1,12 +1,15 @@
-# docker-geoserver
+# GeoServer docker image
 
-A simple docker container that runs Geoserver influenced by this docker
-recipe: https://github.com/kartoza/docker-geoserver by Tim Sutton. Created with input from GeoSolutions.
+A simple docker container that runs Geoserver.
+Derivated from these docker recipes: 
+https://github.com/kartoza/docker-geoserver by Tim Sutton. 
+https://github.com/thinkwhere/geoserver-docker by thinkWhere. Created with input from GeoSolutions.
+
 
 This container is configured to build with:
 * Tomcat8.5
 * Openjdk 8 
-* GeoServer 2.8.x / 2.9.x / 2.10.x / 2.11.x
+* GeoServer 2.12.x
 * GeoServer Plugins: Any plugins downloaded to /resources/plugins
 * Truetype fonts: Any .ttf fonts copied to the /resources/fonts folder will be included in the container
 
@@ -20,13 +23,13 @@ The image can be downloaded from our image on dockerhub:
 
 
 ```shell
-docker pull thinkwhere/geoserver
+docker pull elnomade/geoserver:2.12
 ```
 
 To build the image yourself do:
 
 ```shell
-docker build -t thinkwhere/geoserver git://github.com/thinkwhere/geoserver-docker/2.9
+docker build -t elnomade/geoserver:2.12 git://github.com/elnomade/geoserver-docker/
 ```
 
 To build with apt-cacher-ng (and minimised download requirements) you need to
@@ -35,7 +38,7 @@ match your cacher host. Then build using a local url instead of directly from
 github.
 
 ```shell
-git clone git://github.com/thinkwhere/geoserver-docker
+git clone git://github.com/elnomade/geoserver-docker
 ```
 Now edit ``71-apt-cacher-ng`` 
 
@@ -62,7 +65,7 @@ the `TOMCAT_EXTRAS` build-arg to `false` when building the image.  (This is the 
 build.sh.)
 
 ```shell
-docker build --build-arg TOMCAT_EXTRAS=false -t thinkwhere/geoserver-docker .
+docker build --build-arg TOMCAT_EXTRAS=false -t elnomade/geoserver:2.12 .
 ```
 
 ### GeoWebCache
@@ -72,7 +75,7 @@ the stand-alone GeoWebCache, or another caching engine such as MapProxy, you can
 by setting the `DISABLE_GWC` build-arg to `true` when building the image.
 
 ```shell
-docker build --build-arg DISABLE_GWC=true -t thinkwhere/geoserver-docker .
+docker build --build-arg DISABLE_GWC=true -t elnomade/geoserver:2.12 .
 ```
 
 **Note:** this removes all *gwc* jar files from the installation. If you are building with plugins that have 
@@ -88,7 +91,7 @@ they can remove them from the final image by setting the `JAI_IMAGEIO` build-arg
 when building the image.
 
 ```shell
-docker build --build-arg JAI_IMAGEIO=false -t thinkwhere/geoserver-docker .
+docker build --build-arg JAI_IMAGEIO=false -t elnomade/geoserver:2.12 .
 ```
 
 ### GDAL Image Formats support
@@ -100,7 +103,7 @@ To include native GDAL libraries in the image, set the `GDAL_NATIVE` build-arg t
 when building the image.
 
 ```shell
-docker build --build-arg GDAL_NATIVE=true -t thinkwhere/geoserver-docker .
+docker build --build-arg GDAL_NATIVE=true -t elnomade/geoserver:2.12 .
 ```
 
 To include the GDAL extension in the final image download the extension and place the zip
@@ -128,7 +131,7 @@ docker run \
 	-p 8080:8080 \
 	-d \
 	-v $HOME/geoserver_data:/opt/geoserver/data_dir \
-	-t thinkwhere/geoserver
+	-t elnomade/geoserver:2.12
 ```
 
 ### Running multiple instances on the same machine
@@ -145,7 +148,7 @@ docker run \
 	-d \
 	-v $HOME/geoserver_data:/opt/geoserver/data_dir \
 	-e "GEOSERVER_LOG_LOCATION=/opt/geoserver/data_dir/logs/geoserver_8085.log" \
-	-t thinkwhere/geoserver
+	-t elnomade/geoserver:2.12
 ```
 
 ### Setting Tomcat properties
@@ -163,7 +166,7 @@ Then pass the `setenv.sh` file as a volume at `/usr/local/tomcat/bin/setenv.sh` 
 ```shell
 docker run -d \
     -v $HOME/tomcat/setenv.sh:/usr/local/tomcat/bin/setenv.sh \
-    thinkwhere/geserver
+    elnomade/geoserver:2.12
 ```
 
 This repository contains a ``run.sh`` script for your convenience.
