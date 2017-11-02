@@ -1,3 +1,10 @@
+sudo: required
+
+language: ruby
+
+services:
+- docker
+
 env:
   global:
   - secure: Zy4WFA/SXAXgyFI+KZ8XK9uA6YFS7fnX+oHthMpNUT61LaU3hqJ6kTLMFz8ft5pFlrpP5D1J2J6Xz74U8Fcup/JitZrQJ4xpYGfC7eVnBq9tRcz6JbUoQzpiT1eADH1D6EFw7Fn7xBlEQ1CuTmrt62VEieYgGG/VQB6upEn3EHN5l3Mjw/WRmjadAj5NnPpJwpTgi2eBhZpyaARG+dnNJ4L3Wx0oke35WrowrQJs6PfttD5ARMjaMgVWwjsa8tAgjxOZIC8rmezTPL3np8W2PnDnyTf9zPAa9x/aItXFgMhdGfzO0FYmt0xkdFJcMi2++Y8JgkGGkHdsE3vOloV0buZ9fBsis6Qj6qMMBj4Hk2tCqYG3aa8dUZUJMJ/1iaP/0JesGGtOPJ4yR1k+1fAyG6lR2tqoLrJbM8sINZd4PTukLpzQxWTIviWq46oEQ+6jvJ93O4zLHagapL/1gXkG8RjQjKOlD01ri0IPTxn8pfgo4hYbRlHN+2XfBjuvKE16avW4Brjn05bU70xGu5FRmyR2mwEYTyng7Pp6qGNFFNOdQIyk5tI5i7D+wAkCP9G86tSQgaxNoISeXi4tRyVk0WMvcCLd/yNikFluhKiZevgQY42UlfMeAKZlcf+GJHQAbbJR5uNlFvegN7+rX+ygibKwdNE2c+L+hZ9u20bDoFQ=
@@ -7,14 +14,14 @@ env:
   - REPO=elnomade/geoserver
 
 script:
- - export TAG=`if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then echo "2.12"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
- - export REPO=elnomade/geoserver
- - docker build -t $REPO:$TAG -f Dockerfile .
+  - export TAG=`if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then echo "2.12"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+  - export REPO=elnomade/geoserver
+  - docker build -t $REPO:$TAG -f Dockerfile .
 
- after_success:
- - docker login -u $DOCKER_USER -p $DOCKER_PASS
- - if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then
-   docker tag $REPO:$TAG $REPO:$TRAVIS_BUILD_NUMBER;
-   docker push $REPO:$TRAVIS_BUILD_NUMBER;
-   fi
- - docker push $REPO:$TAG
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then
+    docker tag $REPO:$TAG $REPO:$TRAVIS_BUILD_NUMBER;
+    docker push $REPO:$TRAVIS_BUILD_NUMBER;
+    fi
+  - docker push $REPO:$TAG
